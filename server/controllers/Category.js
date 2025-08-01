@@ -1,7 +1,7 @@
 const Category = require("../models/category");
 
 
-// create Tag ka handler function
+// create category ka handler function
 
 exports.createCategory = async (req, res) => {
     try{
