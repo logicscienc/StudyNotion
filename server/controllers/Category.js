@@ -72,7 +72,7 @@ exports.categoryPageDetails = async (req, res) => {
 		.exec();
 		
 
-		//HW ->  get top selling courses
+		//HW ->  get top 10 selling courses
 
 		// return response
 		return res.status(200).json({
