@@ -1,6 +1,7 @@
 import React from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import Footer from '../components/common/Footer'
 import HighlightText from "../components/core/HomePage/HighlightText";
 import CTAButton from "../components/core/HomePage/Button";
 import Banner from "../assets/Images/banner.mp4";
@@ -168,6 +169,8 @@ const Home = () => {
       </div>
 
       {/* Footer */}
+       <Footer />
+
     </div>
   );
 };
