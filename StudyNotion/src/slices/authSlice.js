@@ -1,21 +1,27 @@
-import {createSlice} from "@reduxjs/toolkit";
-
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-
-    // we can take whatever data we want here bilow we took token so if token is already present we will just update is and it not it will gat added. we are taking from local storage because even after reloading of our website its remain same. if you found any token then parse it otherewise set it as null
-    token: localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null
-}; 
+  signupData: null,
+  loading: false,
+  token: localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null,
+};
 
 const authSlice = createSlice({
-    name: "auth",
-    initialState: initialState,
-    reducers: {
-        setToken(state, value) {
-            state.token = value.payload;
-        },
+  name: "auth",
+  initialState: initialState,
+  reducers: {
+    setSignupData(state, value) {
+      state.signupData = value.payload;
     },
+    setLoading(state, value) {
+      state.loading = value.payload;
+    },
+    setToken(state, value) {
+      state.token = value.payload;
+    },
+  },
 });
 
-export const {setToken}  = authSlice.actions;
+export const { setSignupData, setLoading, setToken } = authSlice.actions;
+
 export default authSlice.reducer;
