@@ -8,6 +8,8 @@ import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 
 import { categories } from "./services/apis"
+import ForgotPassword from "./pages/ForgotPassword";
+import UpdatePassword from "./pages/UpdatePassword";
 
 function App() {
    console.log("Category API URL ->", categories.CATEGORIES_API)
@@ -30,6 +32,23 @@ function App() {
           element={
             <OpenRoute>
               <Login />
+            </OpenRoute>
+          }
+        />
+         <Route
+          path="forgot-password"
+          element={
+            <OpenRoute>
+              <ForgotPassword />
+            </OpenRoute>
+          }
+        />
+
+          <Route
+          path="update-password/:id"
+          element={
+            <OpenRoute>
+              <UpdatePassword />
             </OpenRoute>
           }
         />
