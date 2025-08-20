@@ -13,7 +13,7 @@ const UpdatePassword = () => {
     password: "",
     confirmPassword:"",
   })
-  const {showPassword, setShowPassword} = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false); 
   const {loading} = useSelector((state) => state.auth);
   const {password, confirmPassword} = formData;

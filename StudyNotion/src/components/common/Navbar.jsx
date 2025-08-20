@@ -99,7 +99,7 @@ const Navbar = () => {
         {/* basicely what's happening in the below code is we are trying to make changes in our ui according to situations like -> in case user is not login then show buttons and if user is login show cart etc. */}
         <div className="flex gap-x-4 items-center">
           {user && user?.accountType != "Instructor" && (
-            <Link to="/dashboard/cart" className="relative">
+            <Link to="/dashboard/cart" className="relative text-white ">
               <MdOutlineShoppingCart />
               {totalItems > 0 && <span>{totalItems}</span>}
             </Link>
