@@ -11,6 +11,8 @@ import { categories } from "./services/apis"
 import ForgotPassword from "./pages/ForgotPassword";
 import UpdatePassword from "./pages/UpdatePassword";
 import VerifyEmail from "./pages/VerifyEmail";
+import About from "./pages/About";
+
 
 function App() {
    console.log("Category API URL ->", categories.CATEGORIES_API)
@@ -59,6 +61,15 @@ function App() {
           element={
             <OpenRoute>
               <UpdatePassword />
+            </OpenRoute>
+          }
+        />
+
+          <Route
+          path="about"
+          element={
+            <OpenRoute>
+              <About />
             </OpenRoute>
           }
         />

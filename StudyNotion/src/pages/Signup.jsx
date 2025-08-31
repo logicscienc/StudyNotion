@@ -8,7 +8,7 @@ function Signup() {
       description1="Build skills for today, tomorrow, and beyond."
       description2="Education to future-proof your career."
       image={signupImg}
-      formType="signup"
+      formType="signup" 
     />
   )
 }
