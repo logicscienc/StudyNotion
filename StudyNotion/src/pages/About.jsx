@@ -7,11 +7,12 @@ import Quote from '../components/core/AboutPage/Quote';
 import FoundingStory from "../assets/Images/FoundingStory.png";import StatsComponent from '../components/core/AboutPage/Stats';
 import LearningGrid from '../components/core/AboutPage/LearningGrid';
 import ContactFormSection from '../components/core/AboutPage/ContactFormSection';
+import Footer from "../components/common/Footer";
 
 
 const About = () => {
   return (
-    <div className='mx-auto mt-[100px] text-white w-11/12 max-w-maxContent'>
+    <div className='mx-auto mt-[100px] text-white '>
       {/* section 1 */}
       <section>
         <div>
@@ -87,6 +88,15 @@ const About = () => {
         <LearningGrid/>
         <ContactFormSection/>
       </section>
+
+      <section>
+        <div>
+          Reviews from other learners
+          {/* Review Slider */}
+        </div>
+      </section>
+
+       <Footer/>
 
 
     </div>

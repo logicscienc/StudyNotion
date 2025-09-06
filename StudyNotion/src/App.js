@@ -12,6 +12,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import UpdatePassword from "./pages/UpdatePassword";
 import VerifyEmail from "./pages/VerifyEmail";
 import About from "./pages/About";
+import Dashboard from "./pages/Dashboard";
+import MyProfile from "./components/core/Dashboard/MyProfile";
 
 
 function App() {
@@ -73,6 +75,8 @@ function App() {
             </OpenRoute>
           }
         />
+
+        <Route path="dashboard/my-profile" element={<MyProfile/>}/>
 
         
       </Routes>
