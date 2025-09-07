@@ -1,7 +1,7 @@
 import React from 'react'
 import IconBtn from './IconBtn'
 
-const ConfirmationModal = () => {
+const ConfirmationModal = ({modalData}) => {
   return (
     <div>
         <div>
@@ -12,12 +12,13 @@ const ConfirmationModal = () => {
                 {modalData.text2}
             </p>
             <div>
-                <IconBtn
-                onClick={modalData?.btnHandler}
-                text={modalData?.btn1Text}/>
+                <IconBtn 
+                    onclick={modalData?.btn1Handler}
+                    text={modalData?.btn1Text}
+                    />
                 <button onClick={modalData?.btn2Handler}>
-                    {modaldata?.btn2Text}
-                </button>
+                    {modalData?.btn2Text}
+                </button>    
             </div>
         </div>
       
