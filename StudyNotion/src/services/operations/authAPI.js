@@ -18,6 +18,8 @@ export function sendOtp(email, navigate) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
     dispatch(setLoading(true))
+     console.log("Final SENDOTP_API URL:", SENDOTP_API);
+    console.log("Email being sent:", email);
     try {
       const response = await apiConnector("POST", SENDOTP_API, {
         email,
