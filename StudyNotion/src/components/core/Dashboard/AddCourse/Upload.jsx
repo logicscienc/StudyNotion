@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
-import { useDropzone } from "react-dropzone";
-import { FiUploadCloud } from "react-icons/fi";
-import { useSelector } from "react-redux";
-import "video-react/dist/video-react.css";
-import { Player } from "video-react";
+import { useEffect, useRef, useState } from "react"
+import { useDropzone } from "react-dropzone"
+import { FiUploadCloud } from "react-icons/fi"
+import { useSelector } from "react-redux"
+
+import "video-react/dist/video-react.css"
+import { Player } from "video-react"
 
 export default function Upload({
   name,
@@ -15,43 +16,65 @@ export default function Upload({
   viewData = null,
   editData = null,
 }) {
-  const { course } = useSelector((state) => state.course);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const { course } = useSelector((state) => state.course)
+  const [selectedFile, setSelectedFile] = useState(null)
   const [previewSource, setPreviewSource] = useState(
     viewData ? viewData : editData ? editData : ""
-  );
+  )
+  const inputRef = useRef(null)
 
   const onDrop = (acceptedFiles) => {
-    const file = acceptedFiles[0];
+    console.log("Files dropped:", acceptedFiles)
+    const file = acceptedFiles[0]
     if (file) {
-      previewFile(file);
-      setSelectedFile(file);
+      previewFile(file)
+      setSelectedFile(file)
     }
-  };
+  }
 
-  const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: !video
       ? { "image/*": [".jpeg", ".jpg", ".png"] }
       : { "video/*": [".mp4"] },
     onDrop,
-    noClick: true, // prevents automatic click so we can control manually
-  });
+  })
 
   const previewFile = (file) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
     reader.onloadend = () => {
-      setPreviewSource(reader.result);
-    };
-  };
+      console.log("File preview loaded")
+      setPreviewSource(reader.result)
+    }
+    reader.onerror = (err) => {
+      console.error("Error reading file:", err)
+    }
+  }
 
   useEffect(() => {
-    register(name, { required: true });
-  }, [register, name]);
+    console.log("Registering field:", name)
+    register(name, { required: true })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [register])
 
   useEffect(() => {
-    setValue(name, selectedFile);
-  }, [selectedFile, setValue, name]);
+    console.log("Updating value for", name, "selectedFile:", selectedFile)
+    setValue(name, selectedFile)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedFile, setValue])
+
+  const handleClickInput = () => {
+    try {
+      if (inputRef.current) {
+        console.log("Opening file picker")
+        inputRef.current.click()
+      } else {
+        console.log("inputRef.current is null, cannot open file picker")
+      }
+    } catch (err) {
+      console.error("Error opening file picker:", err)
+    }
+  }
 
   return (
     <div className="flex flex-col space-y-2">
@@ -64,25 +87,35 @@ export default function Upload({
         className={`${
           isDragActive ? "bg-richblack-600" : "bg-richblack-700"
         } flex min-h-[250px] cursor-pointer items-center justify-center rounded-md border-2 border-dotted border-richblack-500`}
+        onClick={handleClickInput}
       >
+        <input {...getInputProps()} ref={inputRef} />
+
         {previewSource ? (
           <div className="flex w-full flex-col p-6">
             {!video ? (
               <img
                 src={previewSource}
                 alt="Preview"
-                className="h-full w-full rounded-md object-cover"
+                className="h-full w-full rounded-md object-cover pointer-events-none"
               />
             ) : (
-              <Player aspectRatio="16:9" playsInline src={previewSource} />
+              <Player
+                aspectRatio="16:9"
+                playsInline
+                src={previewSource}
+                className="pointer-events-none"
+              />
             )}
             {!viewData && (
               <button
                 type="button"
-                onClick={() => {
-                  setPreviewSource("");
-                  setSelectedFile(null);
-                  setValue(name, null);
+                onClick={(e) => {
+                  e.stopPropagation()
+                  console.log("Cancelling selected file")
+                  setPreviewSource("")
+                  setSelectedFile(null)
+                  setValue(name, null)
                 }}
                 className="mt-3 text-richblack-400 underline"
               >
@@ -92,23 +125,14 @@ export default function Upload({
           </div>
         ) : (
           <div className="flex w-full flex-col items-center p-6">
-            {/* Dropzone input */}
-            <input {...getInputProps()} />
-
             <div className="grid aspect-square w-14 place-items-center rounded-full bg-pure-greys-800">
               <FiUploadCloud className="text-2xl text-yellow-50" />
             </div>
-
             <p className="mt-2 max-w-[200px] text-center text-sm text-richblack-200">
-              Drag and drop an {!video ? "image" : "video"}, or{" "}
-              <span
-                className="font-semibold text-yellow-50 cursor-pointer underline"
-                onClick={open} // <- triggers the hidden input
-              >
-                Browse
-              </span>
+              Drag and drop an {!video ? "image" : "video"}, or click to{" "}
+              <span className="font-semibold text-yellow-50">Browse</span> a
+              file
             </p>
-
             <ul className="mt-10 flex list-disc justify-between space-x-12 text-center text-xs text-richblack-200">
               <li>Aspect ratio 16:9</li>
               <li>Recommended size 1024x576</li>
@@ -123,5 +147,7 @@ export default function Upload({
         </span>
       )}
     </div>
-  );
+  )
 }
+
+
