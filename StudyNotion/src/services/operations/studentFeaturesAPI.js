@@ -23,7 +23,7 @@ function loadScript(src) {
 
 
 // 2. Second function
-export async function buyCourse() {
+export async function buyCourse(token, courses, userDetails, navigate, dispatch) {
     const toastId = toast.loading("Loading...");
 
     try{
@@ -37,7 +37,7 @@ export async function buyCourse() {
 
         // initiate the order
         const orderResponse = await apiConnector("POST", COURSE_PAYMENT_API, 
-            {course},
+            {courses},
             {
                 Authorization: `bearer ${token}`,
             }
@@ -55,11 +55,38 @@ export async function buyCourse() {
             order_id:orderResponse.data.data.id,
             name:"StudyNotion",
             description: "Thank You for Purchasing the Course",
+            image:rzpLogo,
+            prefill: {
+                name: `${userDetails.firstName}`,
+                email:userDetails.email
+            },
+            handler: function(response){
+                // send successfull mail
+                SendPaymentSuccessEmail(response, orderResponse.data.amount, token);
+                // verify paymant
+                verifyPayment({...response, courses}, token, navigate, dispatch);
+
+            }
 
         }
     }
     catch(error)
     {
-        
+        console.log("PAYMENT API ERROR......", error);
+        toast.error("Could not make Payment");
+
+    }
+    toast.dismiss(toastId);
+}
+
+async function sendpaymnetSuccessEmail(response, amount, token) {
+    try{
+        await apiConnector("POST", SEND_PAYMENT_SUCCESS_EMAIL_API, {
+            orderId
+        })
+
+    }
+    catch(error) {
+        console.log("PAYMENT SUCCESS EMAIL ERROR.....", error);
     }
 }
