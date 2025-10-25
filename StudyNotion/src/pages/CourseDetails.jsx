@@ -8,6 +8,8 @@ import GetAvgRating from "../utils/avgRating";
 import Error from "./Error";
 import ConfirmationModal from "../components/common/ConfirmationModal"
 import RatingStars from "../components/common/RatingStars"
+import {formatDate} from "../services/formatDate";
+import CourseDetailsCard from '../components/core/Course/CourseDetailsCard';
 
 const CourseDetails = () => {
 
@@ -97,24 +99,46 @@ const CourseDetails = () => {
         ratingAndReviews,
         instructor,
         studentsEnrolled,
-        createAt,
+        createdAt,
     } = courseData.data?.courseDetails || {};
 
 
   return (
-    <div className='flex items-center text-white'>
-        <p>{courseName}</p>
+    <div className='flex flex-col items-center text-white'>
+       <div className='relative flex flex-col justify-start p-8'>
+         <p>{courseName}</p>
         <p>{courseDescription}</p>
 
-        <div>
+        <div className='flex gap-x-2'>
             <span>{avgReviewCount}</span>
             <RatingStars Review_Count={avgReviewCount} Star_Size={24}/>
             <span>{`(${ratingAndReviews?.length || 0} reviews)`}</span>
             <span>{`(${studentsEnrolled?.length || 0} students enrolled)`}</span>
         </div>
-       
+       <div>
+        <p>Created By {`${instructor.firstName}`}</p>
+       </div>
 
-       {confirmationModal && <ConfirmationModal modalData={confirmationModal}/>}
+       <div className='flex gap-x-3'>
+        <p>
+            Created At {formatDate(createdAt)}
+        </p>
+       </div>
+          <p>
+            {" "} English 
+          </p>
+      
+       </div>
+
+       <div>
+        <CourseDetailsCard
+        course = {courseData?.data?.CourseDetails}
+        setConfirmationModal = {setConfirmationModal}
+        handleBuyCourse={handleBuyCourse}
+        />
+       </div>
+
+        {confirmationModal && <ConfirmationModal modalData={confirmationModal}/>}
     </div>
   )
 }
