@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import copy from "copy-to-clipboard";
 import {toast} from "react-hot-toast";
 import {ACCOUNT_TYPE} from "../../../utils/constants";
+import {addToCart} from "../../../slices/cartSlice";
 
 function CourseDetailsCard({course, setConfirmationModal, handleBuyCourse}) {
        const {user} = useSelector((state) => state.profile);
@@ -23,7 +24,7 @@ function CourseDetailsCard({course, setConfirmationModal, handleBuyCourse}) {
             return;
         }
         if(token) {
-            dispatch(addToCart)
+            dispatch(addToCart(course))
             return;
         }
 
