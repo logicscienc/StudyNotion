@@ -20,7 +20,7 @@ It provides separate dashboards for **Admin, Instructor, and Student** users —
 
 > *UI Previews (Development Mode)*  
 
-![Landing Page](./src/assets/image1.png)
+![Landing Page](../src/assets/image1.png)
 ![Dashboard Preview](./src/assets/Image2.png)
 
 ---
