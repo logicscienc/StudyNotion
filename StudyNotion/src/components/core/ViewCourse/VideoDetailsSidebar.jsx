@@ -2,18 +2,19 @@ import React, {useEffect, useState} from 'react'
 import {useSelector} from "react-redux";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 
-const VideoDetailsSidebar = ({set}) => {
+
+const VideoDetailsSidebar = ({setReviewModal}) => {
 
     const [activeStatus, setActiveStatus] = useState("");
     const [videoBarActive, setVideoBarActive] = useState("");
-    const naviagte = useNavigate();
+    const navigate = useNavigate();
     const location = useLocation();
     const {sectionId, subSectionId} = useParams();
 
     const {
         courseSectionData,
         courseEntireData,
-        totalNoOflectures,
+        totalNoOfLectures,
         completedLectures,
     } = useSelector((state) => state.viewCourse);
 
@@ -41,9 +42,87 @@ const VideoDetailsSidebar = ({set}) => {
      setActiveFlags();
     }, [courseSectionData, courseEntireData, location.pathname])
   return (
+   <>
+   <div>
+    {/* for buttons and headings */}
     <div>
-      
+          {/* for buttons */}
+        <div>
+          <div 
+          onClick={()=> {
+            navigate("/dashboard/enrolled-courses")
+          }}
+          >
+              Back
+          </div>
+
+          <div>
+            <IconBtn
+            text="Add Review"
+            onClick={() => setReviewModal(true)}
+            />
+          </div>
+        </div>
+
+        {/* for heading or title */}
+        <div>
+            <p>{courseEntireData?.courseName}</p>
+            <p>{completedLectures?.length} / {totalNoOfLectures}</p>
+        </div>
     </div>
+
+    {/* for sections and subsections */}
+    <div>
+       {
+        courseSectionData.map((section, index) => (
+            <div
+            onClick={() => setActiveStatus(section?._id)}
+            key={index}
+            >
+                {/* section */}
+                <div>
+                    <div>
+                        {section?.sectionName}
+                    </div>
+                    {/* HW- add icon here and handle rotate 180 logic */}
+                </div>
+
+                {/* subsection */}
+                <div>
+                    {
+                        activeStatus === section?._id && (
+                            <div>
+                                   {
+                                    section.subSection.map((topic, index) => (
+                                        <div
+                                        className={`flex gap-5 p-5 ${
+                                            videoBarActive === topic._id
+                                        ? "bg-yellow-200 text-richblack-900" : "bg-richblack-900 text-white"
+                                        }`}
+
+                                        key={index}
+                                        onClick={() => {
+                                            navigate(
+                                                `/view-course/${courseEntireData?._id}/section/${course?._id}/sub-section/${topic?._id}`
+                                            )
+                                            setVideoBarActive(topic?._id);
+                                        }}
+                                        >
+
+
+                                        </div>
+                                    ))
+                                   }
+                                </div>
+                        )
+                    }
+                </div>
+            </div>
+        ))
+       }
+    </div>
+   </div>
+   </>
   )
 }
 
